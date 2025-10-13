@@ -10,7 +10,7 @@ HLSL is the shader languages used by Unity, with a ShaderLab wrpaper language co
 
 This project is part of a tutorial series which is available in the following places:
 
-- (Coming Soon!)
+- [Part 1: Your First Shader](https://www.youtube.com/watch?v=eMWrMRdP5jY)
 
 ## Authors
 
