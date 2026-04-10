@@ -15,11 +15,16 @@ This project is part of a tutorial series which is available in the following pl
 - [Part 1: Your First Shader](https://www.youtube.com/watch?v=eMWrMRdP5jY)
 - [Part 2: Textures & UVs](https://www.youtube.com/watch?v=XwHpIsPROEQ)
 - [Part 3: Transparency](https://www.youtube.com/watch?v=lmgYcW8soJ8)
+- [Part 4: Depth](https://www.youtube.com/watch?v=2wa6UbtKvMs)
+- [Part 5: Vertex Shaders & Tessellation](https://www.youtube.com/watch?v=SurwAUTGp18)
 
 **Articles**
 
 - [Part 1: Your First Shader](https://danielilett.com/2025-10-15-tut10-01-your-first-shader/)
 - [Part 2: Textures & UVs](https://danielilett.com/2025-10-16-tut10-02-textures/)
+- [Part 3: Transparency](https://danielilett.com/2026-01-01-tut10-03-transparency/)
+- [Part 4: Depth](https://danielilett.com/2026-01-02-tut10-04-depth/)
+- [Part 5: Vertex Shaders & Tessellation](https://danielilett.com/2026-01-03-tut10-05-vertex-waves/)
 
 ## Authors
 
