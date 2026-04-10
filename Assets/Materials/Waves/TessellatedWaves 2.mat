@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TessellatedWaves
+  m_Name: TessellatedWaves 2
   m_Shader: {fileID: 4800000, guid: cfa7f06d4c3ddb246ba5a5095a32ec33, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -130,10 +130,10 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _TessellationAmount: 3
-    - _TessellationFadeEnd: 50
+    - _TessellationAmount: 2
+    - _TessellationFadeEnd: 150
     - _TessellationFadeStart: 0
-    - _WaveHeight: 0.25
+    - _WaveHeight: 0.4
     - _WaveSpeed: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
