@@ -28,6 +28,25 @@ Shader "Basics/PBR"
         
         [NoScaleOffset] _EmissionMap("Emission Map", 2D) = "white" {}
         [HDR] _EmissionColor("Emission Color", Color) = (0.0, 0.0, 0.0, 1.0)
+        
+        [HideInInspector] _Surface("_Surface", Float) = 0
+        [HideInInspector] _Cutoff("Alpha Cutoff", Range(0.0, 1.0)) = 0.5
+        [HideInInspector] _SrcBlend("_SrcBlend", Float) = 1
+        [HideInInspector] _DstBlend("_DstBlend", Float) = 0
+        [HideInInspector] _SrcBlendAlpha("_SrcBlendAlpha", Float) = 1
+        [HideInInspector] _DstBlendAlpha("_DstBlendAlpha", Float) = 0
+        [HideInInspector] _ZWrite("_ZWrite", Float) = 1
+        [HideInInspector] _ZTest("_ZTest", Float) = 4
+        [HideInInspector] _Cull("_Cull", Float) = 2
+        [HideInInspector] _AlphaToMask("_AlphaToMask", Float) = 0
+        
+        [HideInInspector] _CastShadows("_CastShadows", Float) = 1
+        [HideInInspector] _ReceiveShadows("Receive Shadows", Float) = 1.0
+        [HideInInspector] _Blend("_Blend", Float) = 0
+        [HideInInspector] _AlphaClip("_AlphaClip", Float) = 0
+        [HideInInspector] _ZWriteControl("_ZWriteControl", Float) = 0
+        [HideInInspector] _QueueOffset("_QueueOffset", Float) = 0
+        [HideInInspector] _QueueControl("_QueueControl", Float) = 0
     }
     SubShader
     {
@@ -45,8 +64,11 @@ Shader "Basics/PBR"
                 "LightMode" = "UniversalForward"
             }
 
-            ZWrite On
-            ZTest LEqual
+            Cull [_Cull]
+            ZWrite [_ZWrite]
+            ZTest [_ZTest]
+            Blend [_SrcBlend] [_DstBlend], [_SrcBlendAlpha] [_DstBlendAlpha]
+            AlphaToMask [_AlphaToMask]
 
             HLSLPROGRAM
             #pragma vertex vert
@@ -61,12 +83,16 @@ Shader "Basics/PBR"
             
             #pragma shader_feature_local _ _CONVERT_FROM_ROUGHNESS
             #pragma shader_feature_local _ _SPECULAR_SETUP
+            #pragma shader_feature_local _RECEIVE_SHADOWS_OFF
+            #pragma shader_feature_local_fragment _ _ALPHATEST_ON
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/ParallaxMapping.hlsl"
             
             CBUFFER_START(UnityPerMaterial)
+                float _Surface;
+                float _Cutoff;
                 float4 _BaseColor;
                 float4 _BaseTexture_ST;
                 float _NormalStrength;
@@ -154,6 +180,8 @@ Shader "Basics/PBR"
                 surfaceData.albedo = baseColor.rgb;
                 surfaceData.alpha = baseColor.a;
                 
+                AlphaDiscard(surfaceData.alpha, _Cutoff);
+                
 #ifdef _SPECULAR_SETUP
                 surfaceData.metallic = 0.0f;
                 surfaceData.specular = SAMPLE_TEXTURE2D(_SpecularMap, sampler_SpecularMap, i.uv).rgb * _SpecularColor;
@@ -163,7 +191,7 @@ Shader "Basics/PBR"
 #endif
                 
 #ifdef _CONVERT_FROM_ROUGHNESS
-                surfaceData.smoothness = 1.0f - SAMPLE_TEXTURE2D(_SmoothnessMap, sampler_SmoothnessMap, i.uv).r * _Smoothness;
+                surfaceData.smoothness = (1.0f - SAMPLE_TEXTURE2D(_SmoothnessMap, sampler_SmoothnessMap, i.uv).r) * _Smoothness;
 #else
                 surfaceData.smoothness = SAMPLE_TEXTURE2D(_SmoothnessMap, sampler_SmoothnessMap, i.uv).r * _Smoothness;
 #endif
@@ -179,8 +207,9 @@ Shader "Basics/PBR"
                 inputData.positionCS = i.positionCS;
                 inputData.positionWS = i.positionWS;
                 
-                float3 bitangent = cross(i.normalWS.xyz, i.tangentWS.xyz) * i.tangentWS.w * unity_WorldTransformParams.w;
-                inputData.tangentToWorld = float3x3(i.tangentWS.xyz, bitangent.xyz, i.normalWS.xyz);
+                float3 normalWS = NormalizeNormalPerPixel(i.normalWS);
+                float3 bitangent = cross(normalWS.xyz, i.tangentWS.xyz) * i.tangentWS.w * unity_WorldTransformParams.w;
+                inputData.tangentToWorld = float3x3(i.tangentWS.xyz, bitangent.xyz, normalWS.xyz);
                 
                 inputData.normalWS = TransformTangentToWorld(surfaceData.normalTS, inputData.tangentToWorld);
                 inputData.viewDirectionWS = viewDirWS;
@@ -189,7 +218,10 @@ Shader "Basics/PBR"
                 inputData.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(i.positionCS);
                 
                 // Calculate final PBR-lit color.
-                return UniversalFragmentPBR(inputData, surfaceData);
+                float4 color = UniversalFragmentPBR(inputData, surfaceData);
+                color.a = OutputAlpha(color.a, IsSurfaceTypeTransparent(_Surface));
+                
+                return color;
             }
 
             ENDHLSL
@@ -204,6 +236,8 @@ Shader "Basics/PBR"
                 "LightMode" = "ShadowCaster"
             }
 
+            Cull [_Cull]
+            ZTest LEqual
             ZWrite On
             ColorMask 0
 
@@ -216,6 +250,24 @@ Shader "Basics/PBR"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
 
             #pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
+            #pragma shader_feature_local_fragment _ _ALPHATEST_ON
+            
+            CBUFFER_START(UnityPerMaterial)
+                float _Surface;
+                float _Cutoff;
+                float4 _BaseColor;
+                float4 _BaseTexture_ST;
+                float _NormalStrength;
+                float _Metallic;
+                float3 _SpecularColor;
+                float _Smoothness;
+                float _HeightMapStrength;
+                float _OcclusionStrength;
+                float3 _EmissionColor;
+            CBUFFER_END
+
+            TEXTURE2D(_BaseTexture);
+            SAMPLER(sampler_BaseTexture);
 
             float3 _LightDirection;
             float3 _LightPosition;
@@ -224,11 +276,13 @@ Shader "Basics/PBR"
             {
                 float4 positionOS : POSITION;
                 float3 normalOS : NORMAL;
+                float2 uv : TEXCOORD0;
             };
 
             struct v2f
             {
                 float4 positionCS : SV_POSITION;
+                float2 uv : TEXCOORD0;
             };
 
             float4 GetShadowPositionHClip(float3 positionOS, float3 normalOS)
@@ -253,12 +307,16 @@ Shader "Basics/PBR"
                 v2f o = (v2f)0;
 
                 o.positionCS = GetShadowPositionHClip(v.positionOS.xyz, v.normalOS);
+                o.uv = TRANSFORM_TEX(v.uv, _BaseTexture);
 
                 return o;
             }
 
             float4 shadowPassFrag(v2f i) : SV_TARGET
             {
+                float4 baseColor = SAMPLE_TEXTURE2D(_BaseTexture, sampler_BaseTexture, i.uv) * _BaseColor;
+                AlphaDiscard(baseColor.a, _Cutoff);
+                
                 return 0;
             }
 
@@ -274,6 +332,8 @@ Shader "Basics/PBR"
                 "LightMode" = "DepthOnly"
             }
 
+            Cull [_Cull]
+            ZTest LEqual
             ZWrite On
             ColorMask R
 
@@ -282,15 +342,36 @@ Shader "Basics/PBR"
             #pragma fragment depthOnlyFrag
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            
+            #pragma shader_feature_local_fragment _ _ALPHATEST_ON
+            
+            CBUFFER_START(UnityPerMaterial)
+                float _Surface;
+                float _Cutoff;
+                float4 _BaseColor;
+                float4 _BaseTexture_ST;
+                float _NormalStrength;
+                float _Metallic;
+                float3 _SpecularColor;
+                float _Smoothness;
+                float _HeightMapStrength;
+                float _OcclusionStrength;
+                float3 _EmissionColor;
+            CBUFFER_END
+
+            TEXTURE2D(_BaseTexture);
+            SAMPLER(sampler_BaseTexture);
 
             struct appdata
             {
                 float4 positionOS : POSITION;
+                float2 uv : TEXCOORD0;
             };
 
             struct v2f
             {
                 float4 positionCS : SV_POSITION;
+                float2 uv : TEXCOORD0;
             };
 
             v2f depthOnlyVert(appdata v)
@@ -298,12 +379,16 @@ Shader "Basics/PBR"
                 v2f o = (v2f)0;
 
                 o.positionCS = TransformObjectToHClip(v.positionOS.xyz);
+                o.uv = TRANSFORM_TEX(v.uv, _BaseTexture);
 
                 return o;
             }
 
             float depthOnlyFrag(v2f i) : SV_TARGET
             {
+                float4 baseColor = SAMPLE_TEXTURE2D(_BaseTexture, sampler_BaseTexture, i.uv) * _BaseColor;
+                AlphaDiscard(baseColor.a, _Cutoff);
+                
                 return i.positionCS.z;
             }
 
@@ -317,6 +402,8 @@ Shader "Basics/PBR"
                 "LightMode" = "DepthNormals"
             }
 
+            Cull [_Cull]
+            ZTest LEqual
             ZWrite On
 
             HLSLPROGRAM
@@ -324,8 +411,12 @@ Shader "Basics/PBR"
             #pragma fragment depthNormalsFrag
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            
+            #pragma shader_feature_local_fragment _ _ALPHATEST_ON
 
             CBUFFER_START(UnityPerMaterial)
+                float _Surface;
+                float _Cutoff;
                 float4 _BaseColor;
                 float4 _BaseTexture_ST;
                 float _NormalStrength;
@@ -336,6 +427,9 @@ Shader "Basics/PBR"
                 float _OcclusionStrength;
                 float3 _EmissionColor;
             CBUFFER_END
+            
+            TEXTURE2D(_BaseTexture);
+            SAMPLER(sampler_BaseTexture);
 
             TEXTURE2D(_NormalTexture);
             SAMPLER(sampler_NormalTexture);
@@ -371,6 +465,9 @@ Shader "Basics/PBR"
 
             float4 depthNormalsFrag(v2f i) : SV_TARGET
             {
+                float4 baseColor = SAMPLE_TEXTURE2D(_BaseTexture, sampler_BaseTexture, i.uv) * _BaseColor;
+                AlphaDiscard(baseColor.a, _Cutoff);
+                
                 float3 normalWS = NormalizeNormalPerPixel(i.normalWS);
 
                 float3 normalTS = UnpackNormalScale(SAMPLE_TEXTURE2D(_NormalTexture, sampler_NormalTexture, i.uv), _NormalStrength);
@@ -387,4 +484,6 @@ Shader "Basics/PBR"
             ENDHLSL
         }
     }
+
+    CustomEditor "ShaderBasics.Editor.PBRShaderGUI"
 }

@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Bricks
+  m_Name: Rust
   m_Shader: {fileID: 4800000, guid: af0bb9b26e870e94283ee2a17a2752e6, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -31,7 +31,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseTexture:
-        m_Texture: {fileID: 2800000, guid: 13f3cb734d60bbc439616c509bdd3e38, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2fdeb0f71f8fece44be280716c87c0e2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -55,7 +55,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _HeightMap:
-        m_Texture: {fileID: 2800000, guid: e53ac48f2402b3146a0a9c402c7bee89, type: 3}
+        m_Texture: {fileID: 2800000, guid: ae36d9c9f023ede4ab9fecc789f1aacd, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -67,19 +67,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _NormalMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 5bb7609afc54c574cad6df68784512df, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalTexture:
-        m_Texture: {fileID: 2800000, guid: 2f236baee3221a04fb526a58b2318219, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7609970b5de95be4d8c5cce8fdca2f35, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
-        m_Texture: {fileID: 2800000, guid: 1691fe0f9c1a32e4297a71d0806e965a, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
@@ -87,7 +83,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SmoothnessMap:
-        m_Texture: {fileID: 2800000, guid: 7181d3fb5ebb9bd4f8c436b9cc608491, type: 3}
+        m_Texture: {fileID: 2800000, guid: ad2d6f15e6d2dd147a7f65c6a824c985, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
@@ -135,8 +131,8 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 7
     - _GlossyReflections: 0
-    - _HeightMapStrength: 0.1
-    - _Metallic: 0
+    - _HeightMapStrength: 0
+    - _Metallic: 1
     - _NormalStrength: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -157,7 +153,7 @@ Material:
     m_Colors:
     - _AmbientLighting: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 0.2}
