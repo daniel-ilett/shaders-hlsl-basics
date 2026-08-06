@@ -18,6 +18,7 @@ This project is part of a tutorial series which is available in the following pl
 - [Part 4: Depth](https://www.youtube.com/watch?v=2wa6UbtKvMs)
 - [Part 5: Vertex Shaders & Tessellation](https://www.youtube.com/watch?v=SurwAUTGp18)
 - [Part 6: Lighting & Shadows](https://www.youtube.com/watch?v=bH--RU6qyTw)
+- [Part 7: Physically Based Rendering](https://www.youtube.com/watch?v=Pg74d22Pr1U)
 
 **Articles**
 
@@ -27,6 +28,7 @@ This project is part of a tutorial series which is available in the following pl
 - [Part 4: Depth](https://danielilett.com/2026-01-02-tut10-04-depth/)
 - [Part 5: Vertex Shaders & Tessellation](https://danielilett.com/2026-01-03-tut10-05-vertex-waves/)
 - [Part 6: Lighting & Shadows](https://danielilett.com/2026-04-17-tut10-06-lighting/)
+- [Part 7: Physically Based Rendering](https://danielilett.com/2026-04-28-tut10-07-pbr/)
 
 ## Authors
 
