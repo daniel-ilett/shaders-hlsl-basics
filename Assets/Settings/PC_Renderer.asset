@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8329032012770862461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ab8a2aa40a5d7f4ba9afb7e7c7c50bb, type: 3}
+  m_Name: Outline 2
+  m_EditorClassIdentifier: 
+  m_Active: 1
 --- !u!114 &-1378650709761368210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42,6 +55,45 @@ MonoBehaviour:
       restoreCamera: 1
       offset: {x: 0, y: 0, z: 0, w: 0}
       cameraFieldOfView: 60
+--- !u!114 &-1288168605093584568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7eb503de8923f8845b32a7b13331e92d, type: 3}
+  m_Name: Outline
+  m_EditorClassIdentifier: 
+  m_Active: 1
+--- !u!114 &-697918262563614254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c52bce2abe1c95a44a8cb58bc5ff7171, type: 3}
+  m_Name: Silhouette
+  m_EditorClassIdentifier: 
+  m_Active: 1
+--- !u!114 &-417890964459629062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c0dee9fedd16ee40a0990151fded6aa, type: 3}
+  m_Name: Greyscale
+  m_EditorClassIdentifier: 
+  m_Active: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,7 +121,11 @@ MonoBehaviour:
   m_RendererFeatures:
   - {fileID: 7833122117494664109}
   - {fileID: -1378650709761368210}
-  m_RendererFeatureMap: ad6b866f10d7b46c6e5f55df7b0cdeec
+  - {fileID: -417890964459629062}
+  - {fileID: -697918262563614254}
+  - {fileID: -1288168605093584568}
+  - {fileID: -8329032012770862461}
+  m_RendererFeatureMap: ad6b866f10d7b46c6e5f55df7b0cdeecfad589c4615a33fad251a3b5097f50f64821968a7a811fee839aef738355698c
   m_UseNativeRenderPass: 1
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
