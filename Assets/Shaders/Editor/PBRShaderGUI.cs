@@ -8,56 +8,10 @@ namespace ShaderBasics.Editor
 {
     public class PBRShaderGUI : ShaderGUI
     {
-        private struct PBRShaderProperty
-        {
-            public MaterialProperty prop;
-            public readonly string name;
-            public readonly GUIContent info;
-            public readonly int id;
-
-            public PBRShaderProperty(string name, string label, string desc)
-            {
-                prop = null;
-                this.name = name;
-                info = new GUIContent(label, desc);
-                id = Shader.PropertyToID(name);
-            }
-        }
+        //
+        // The PBRShaderProperty and enum declarations were moved to ShaderGUITypes.cs as they are reused in new scripts.
+        //
         
-        private enum SurfaceType
-        {
-            Opaque = 0,
-            Transparent = 1
-        }
-
-        private enum RenderFace
-        {
-            Front = 2,
-            Back = 1,
-            Both = 0
-        }
-
-        private enum BlendFunction
-        {
-            Alpha = 0,
-            Premultiply = 1,
-            Additive = 2,
-            Multiply = 3
-        }
-
-        private enum ZWriteControl
-        {
-            Auto = 0,
-            ForceEnabled = 1,
-            ForceDisabled = 2
-        }
-
-        private enum QueueControl
-        {
-            Auto = 0,
-            UserOverride = 1
-        }
-
         private string[] surfaceTypeNames = Enum.GetNames(typeof(SurfaceType));
         private string[] renderFaceNames = Enum.GetNames(typeof(RenderFace));
         private string[] blendFunctionNames = Enum.GetNames(typeof(BlendFunction));
@@ -147,15 +101,15 @@ namespace ShaderBasics.Editor
         private const string renderTypeAlphaTestValue = "TransparentCutout";
         private const string shadowCasterPassName = "ShadowCaster";
         private const string depthOnlyPassName = "DepthOnly";
-        private const string missingEditorText = "No MaterialEditor found (PBRShaderGUI).";
+        protected const string missingEditorText = "No MaterialEditor found (PBRShaderGUI).";
         
         private const int queueOffsetRange = 50;
 
-        private readonly MaterialHeaderScopeList materialScopeList = new();
-        private MaterialEditor materialEditor;
-        private bool firstTimeOpen = true;
+        protected readonly MaterialHeaderScopeList materialScopeList = new();
+        protected MaterialEditor materialEditor;
+        protected bool firstTimeOpen = true;
 
-        private void FindProperties(MaterialProperty[] props)
+        protected virtual void FindProperties(MaterialProperty[] props)
         {
             baseColor.prop = FindProperty(baseColor.name, props, true);
             baseTexture.prop = FindProperty(baseTexture.name, props, true);
@@ -197,7 +151,7 @@ namespace ShaderBasics.Editor
             queueControl.prop = FindProperty(queueControl.name, props, true);
         }
         
-        private void SetBlendMode(BlendFunction blendFunction, SurfaceType surfaceType, Material material)
+        protected void SetBlendMode(BlendFunction blendFunction, SurfaceType surfaceType, Material material)
         {
             var srcBlendRGB = BlendMode.One;
             var dstBlendRGB = BlendMode.Zero;
@@ -273,7 +227,7 @@ namespace ShaderBasics.Editor
             materialEditor.serializedObject.ApplyModifiedProperties();
         }
 
-        private void DrawSurfaceProperties(Material material)
+        protected void DrawSurfaceProperties(Material material)
         {
             materialEditor.PopupShaderProperty(surface.prop, surface.info, surfaceTypeNames);
             var surfaceTypeValue = (SurfaceType)material.GetFloat(surface.id);
@@ -411,7 +365,7 @@ namespace ShaderBasics.Editor
             }
         }
 
-        private void DrawPBRProperties(Material material)
+        protected void DrawPBRProperties(Material material)
         {
             materialEditor.TexturePropertySingleLine(baseTexture.info, baseTexture.prop, baseColor.prop);
             materialEditor.TextureScaleOffsetProperty(baseTexture.prop);
