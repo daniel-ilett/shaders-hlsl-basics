@@ -303,6 +303,8 @@ Shader "Basics/DissolveAlt"
 
             #pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
             #pragma shader_feature_local_fragment _ _ALPHATEST_ON
+            #pragma shader_feature_local_fragment _NOISE_TYPE_PERLIN _NOISE_TYPE_VRN_CENTER _NOISE_TYPE_VRN_EDGE
+            #pragma shader_feature_local_fragment _ _REVERSE_DIRECTION
             
             CBUFFER_START(UnityPerMaterial)
                 float _Surface;
@@ -377,10 +379,27 @@ Shader "Basics/DissolveAlt"
                 float4 baseColor = SAMPLE_TEXTURE2D(_BaseTexture, sampler_BaseTexture, i.uv) * _BaseColor;
                 AlphaDiscard(baseColor.a, _Cutoff);
                 
+#ifdef _NOISE_TYPE_PERLIN
                 float noise = (perlinNoise(i.uv, _NoiseScale, _Time.y * _CycleSpeed) - 0.5f) * _NoiseStrength;
+#else
+                float distFromCenter, distFromEdge;
+                voronoiNoise(i.uv, _NoiseScale, distFromCenter, distFromEdge, _Time.y * _CycleSpeed);
+                
+#ifdef _NOISE_TYPE_VRN_CENTER
+                float noise = (distFromCenter - 0.5f) * _NoiseStrength;
+#else
+                float noise = (distFromEdge - 0.5f) * _NoiseStrength;
+#endif
+                
+#endif
+                
                 float height = i.positionOS.y + noise;
                 
+#ifdef _REVERSE_DIRECTION
+                AlphaDiscard(height, _CutoffHeight);
+#else
                 AlphaDiscard(_CutoffHeight,height);
+#endif
                 
                 return 0;
             }
@@ -410,6 +429,8 @@ Shader "Basics/DissolveAlt"
             #include "./NoiseFunctions.hlsl"
             
             #pragma shader_feature_local_fragment _ _ALPHATEST_ON
+            #pragma shader_feature_local_fragment _NOISE_TYPE_PERLIN _NOISE_TYPE_VRN_CENTER _NOISE_TYPE_VRN_EDGE
+            #pragma shader_feature_local_fragment _ _REVERSE_DIRECTION
             
             CBUFFER_START(UnityPerMaterial)
                 float _Surface;
@@ -463,10 +484,27 @@ Shader "Basics/DissolveAlt"
                 float4 baseColor = SAMPLE_TEXTURE2D(_BaseTexture, sampler_BaseTexture, i.uv) * _BaseColor;
                 AlphaDiscard(baseColor.a, _Cutoff);
                 
+#ifdef _NOISE_TYPE_PERLIN
                 float noise = (perlinNoise(i.uv, _NoiseScale, _Time.y * _CycleSpeed) - 0.5f) * _NoiseStrength;
+#else
+                float distFromCenter, distFromEdge;
+                voronoiNoise(i.uv, _NoiseScale, distFromCenter, distFromEdge, _Time.y * _CycleSpeed);
+                
+#ifdef _NOISE_TYPE_VRN_CENTER
+                float noise = (distFromCenter - 0.5f) * _NoiseStrength;
+#else
+                float noise = (distFromEdge - 0.5f) * _NoiseStrength;
+#endif
+                
+#endif
+                
                 float height = i.positionOS.y + noise;
                 
+#ifdef _REVERSE_DIRECTION
+                AlphaDiscard(height, _CutoffHeight);
+#else
                 AlphaDiscard(_CutoffHeight,height);
+#endif
                 
                 return i.positionCS.z;
             }
@@ -493,6 +531,8 @@ Shader "Basics/DissolveAlt"
             #include "./NoiseFunctions.hlsl"
             
             #pragma shader_feature_local_fragment _ _ALPHATEST_ON
+            #pragma shader_feature_local_fragment _NOISE_TYPE_PERLIN _NOISE_TYPE_VRN_CENTER _NOISE_TYPE_VRN_EDGE
+            #pragma shader_feature_local_fragment _ _REVERSE_DIRECTION
 
             CBUFFER_START(UnityPerMaterial)
                 float _Surface;
@@ -556,10 +596,27 @@ Shader "Basics/DissolveAlt"
                 float4 baseColor = SAMPLE_TEXTURE2D(_BaseTexture, sampler_BaseTexture, i.uv) * _BaseColor;
                 AlphaDiscard(baseColor.a, _Cutoff);
                 
+#ifdef _NOISE_TYPE_PERLIN
                 float noise = (perlinNoise(i.uv, _NoiseScale, _Time.y * _CycleSpeed) - 0.5f) * _NoiseStrength;
+#else
+                float distFromCenter, distFromEdge;
+                voronoiNoise(i.uv, _NoiseScale, distFromCenter, distFromEdge, _Time.y * _CycleSpeed);
+                
+#ifdef _NOISE_TYPE_VRN_CENTER
+                float noise = (distFromCenter - 0.5f) * _NoiseStrength;
+#else
+                float noise = (distFromEdge - 0.5f) * _NoiseStrength;
+#endif
+                
+#endif
+                
                 float height = i.positionOS.y + noise;
                 
+#ifdef _REVERSE_DIRECTION
+                AlphaDiscard(height, _CutoffHeight);
+#else
                 AlphaDiscard(_CutoffHeight,height);
+#endif
                 
                 float3 normalWS = NormalizeNormalPerPixel(i.normalWS);
 

@@ -357,7 +357,14 @@ Shader "Basics/Dissolve"
                 float4 baseColor = SAMPLE_TEXTURE2D(_BaseTexture, sampler_BaseTexture, i.uv) * _BaseColor;
                 AlphaDiscard(baseColor.a, _Cutoff);
                 
-                float noise = (perlinNoise(i.uv, _NoiseScale, _Time.y * _CycleSpeed) - 0.5f) * _NoiseStrength;
+                // Perlin noise pattern.
+                //float noise = (perlinNoise(i.uv, _NoiseScale, _Time.y * _CycleSpeed) - 0.5f) * _NoiseStrength;
+                
+                // Voronoi noise pattern.
+                float distFromCenter, distFromEdge;
+                voronoiNoise(i.uv, _NoiseScale, distFromCenter, distFromEdge, _Time.y * _CycleSpeed);
+                float noise = (distFromEdge - 0.5f) * _NoiseStrength;
+                
                 float height = i.positionOS.y + noise;
                 
                 AlphaDiscard(_CutoffHeight,height);
@@ -443,7 +450,14 @@ Shader "Basics/Dissolve"
                 float4 baseColor = SAMPLE_TEXTURE2D(_BaseTexture, sampler_BaseTexture, i.uv) * _BaseColor;
                 AlphaDiscard(baseColor.a, _Cutoff);
                 
-                float noise = (perlinNoise(i.uv, _NoiseScale, _Time.y * _CycleSpeed) - 0.5f) * _NoiseStrength;
+                // Perlin noise pattern.
+                //float noise = (perlinNoise(i.uv, _NoiseScale, _Time.y * _CycleSpeed) - 0.5f) * _NoiseStrength;
+                
+                // Voronoi noise pattern.
+                float distFromCenter, distFromEdge;
+                voronoiNoise(i.uv, _NoiseScale, distFromCenter, distFromEdge, _Time.y * _CycleSpeed);
+                float noise = (distFromEdge - 0.5f) * _NoiseStrength;
+                
                 float height = i.positionOS.y + noise;
                 
                 AlphaDiscard(_CutoffHeight,height);
@@ -536,7 +550,14 @@ Shader "Basics/Dissolve"
                 float4 baseColor = SAMPLE_TEXTURE2D(_BaseTexture, sampler_BaseTexture, i.uv) * _BaseColor;
                 AlphaDiscard(baseColor.a, _Cutoff);
                 
-                float noise = (perlinNoise(i.uv, _NoiseScale, _Time.y * _CycleSpeed) - 0.5f) * _NoiseStrength;
+                // Perlin noise pattern.
+                //float noise = (perlinNoise(i.uv, _NoiseScale, _Time.y * _CycleSpeed) - 0.5f) * _NoiseStrength;
+                
+                // Voronoi noise pattern.
+                float distFromCenter, distFromEdge;
+                voronoiNoise(i.uv, _NoiseScale, distFromCenter, distFromEdge, _Time.y * _CycleSpeed);
+                float noise = (distFromEdge - 0.5f) * _NoiseStrength;
+                
                 float height = i.positionOS.y + noise;
                 
                 AlphaDiscard(_CutoffHeight,height);
