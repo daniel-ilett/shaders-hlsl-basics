@@ -14,12 +14,14 @@ Material:
   m_ValidKeywords:
   - _ALPHATEST_ON
   - _CONVERT_FROM_ROUGHNESS
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _USEHEIGHTCUTOFF_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
+  m_CustomRenderQueue: 2450
+  stringTagMap:
+    RenderType: TransparentCutout
   disabledShaderPasses:
   - MOTIONVECTORS
   m_LockedProperties: 
@@ -109,6 +111,7 @@ Material:
     m_Ints:
     - _ConvertFromRoughness: 1
     - _ReverseDirection: 0
+    - _UseHeightCutoff: 1
     - _UseSpecularSetup: 0
     m_Floats:
     - _AddPrecomputedVelocity: 0
@@ -137,7 +140,7 @@ Material:
     - _GlossyReflections: 0
     - _HeightMapStrength: 0
     - _Metallic: 0
-    - _NoiseScale: 75
+    - _NoiseScale: 150
     - _NoiseStrength: 0.5
     - _NoiseType: 0
     - _NormalStrength: 1

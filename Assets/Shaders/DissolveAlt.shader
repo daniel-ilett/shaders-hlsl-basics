@@ -38,6 +38,7 @@ Shader "Basics/DissolveAlt"
         
         _NoiseType("Noise Type", Float) = 0.0
         [Toggle(_REVERSE_DIRECTION)] _ReverseDirection("Reverse Direction", Integer) = 0
+        [Toggle] _UseHeightCutoff("Use Height Cutoff", Integer) = 1
         
         [HideInInspector] _Surface("_Surface", Float) = 0
         [HideInInspector] _Cutoff("Alpha Cutoff", Range(0.0, 1.0)) = 0.5
@@ -121,6 +122,7 @@ Shader "Basics/DissolveAlt"
                 float3 _EdgeColor;
                 float _EdgeThickness;
                 float _CycleSpeed;
+                float _UseHeightCutoff;
             CBUFFER_END
 
             TEXTURE2D(_BaseTexture);
@@ -212,12 +214,12 @@ Shader "Basics/DissolveAlt"
 #ifdef _NOISE_TYPE_VRN_CENTER
                 float noise = (distFromCenter - 0.5f) * _NoiseStrength;
 #else
-                float noise = (distFromEdge - 0.5f) * _NoiseStrength;
+                float noise = (-distFromEdge - 0.5f) * _NoiseStrength;
 #endif
                 
 #endif
                 
-                float height = i.positionOS.y + noise;
+                float height = i.positionOS.y * _UseHeightCutoff + noise;
                 
 #ifdef _REVERSE_DIRECTION
                 AlphaDiscard(height, _CutoffHeight);
@@ -324,6 +326,7 @@ Shader "Basics/DissolveAlt"
                 float3 _EdgeColor;
                 float _EdgeThickness;
                 float _CycleSpeed;
+                float _UseHeightCutoff;
             CBUFFER_END
 
             TEXTURE2D(_BaseTexture);
@@ -393,7 +396,7 @@ Shader "Basics/DissolveAlt"
                 
 #endif
                 
-                float height = i.positionOS.y + noise;
+                float height = i.positionOS.y * _UseHeightCutoff + noise;
                 
 #ifdef _REVERSE_DIRECTION
                 AlphaDiscard(height, _CutoffHeight);
@@ -450,6 +453,7 @@ Shader "Basics/DissolveAlt"
                 float3 _EdgeColor;
                 float _EdgeThickness;
                 float _CycleSpeed;
+                float _UseHeightCutoff;
             CBUFFER_END
 
             TEXTURE2D(_BaseTexture);
@@ -498,7 +502,7 @@ Shader "Basics/DissolveAlt"
                 
 #endif
                 
-                float height = i.positionOS.y + noise;
+                float height = i.positionOS.y * _UseHeightCutoff + noise;
                 
 #ifdef _REVERSE_DIRECTION
                 AlphaDiscard(height, _CutoffHeight);
@@ -552,6 +556,7 @@ Shader "Basics/DissolveAlt"
                 float3 _EdgeColor;
                 float _EdgeThickness;
                 float _CycleSpeed;
+                float _UseHeightCutoff;
             CBUFFER_END
             
             TEXTURE2D(_BaseTexture);
@@ -610,7 +615,7 @@ Shader "Basics/DissolveAlt"
                 
 #endif
                 
-                float height = i.positionOS.y + noise;
+                float height = i.positionOS.y * _UseHeightCutoff + noise;
                 
 #ifdef _REVERSE_DIRECTION
                 AlphaDiscard(height, _CutoffHeight);

@@ -15,7 +15,8 @@ Material:
   - _ALPHATEST_ON
   - _CONVERT_FROM_ROUGHNESS
   - _NOISE_TYPE_VRN_EDGE
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _USEHEIGHTCUTOFF_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -115,6 +116,7 @@ Material:
     m_Ints:
     - _ConvertFromRoughness: 1
     - _ReverseDirection: 0
+    - _UseHeightCutoff: 1
     - _UseSpecularSetup: 0
     m_Floats:
     - _AddPrecomputedVelocity: 0

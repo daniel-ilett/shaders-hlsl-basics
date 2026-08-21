@@ -1,4 +1,4 @@
-Shader "Basics/DisplayVoronoiNoise"
+Shader "Basics/Debug/DisplayVoronoiNoise"
 {
     Properties
     {
@@ -29,7 +29,7 @@ Shader "Basics/DisplayVoronoiNoise"
             #pragma fragment frag
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-            #include "./NoiseFunctions.hlsl"
+            #include "Assets/Shaders/NoiseFunctions.hlsl"
 
             CBUFFER_START(UnityPerMaterial)
                 float4 _BaseColor;

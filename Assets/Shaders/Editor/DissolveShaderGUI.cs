@@ -25,6 +25,7 @@ namespace ShaderBasics.Editor
         private PBRShaderProperty cycleSpeed = new("_CycleSpeed", "Cycle Speed", "");
         private PBRShaderProperty noiseType = new("_NoiseType", "Noise Type", "");
         private PBRShaderProperty reverseDirection = new("_ReverseDirection", "Reverse Direction", "");
+        private PBRShaderProperty useHeightCutoff = new("_UseHeightCutoff", "Add Noise To Height", "");
 
         protected override void FindProperties(MaterialProperty[] props)
         {
@@ -39,6 +40,7 @@ namespace ShaderBasics.Editor
             
             noiseType.prop = FindProperty(noiseType.name, props, false);
             reverseDirection.prop = FindProperty(reverseDirection.name, props, false);
+            useHeightCutoff.prop = FindProperty(useHeightCutoff.name, props, false);
         }
 
         public override void OnGUI(MaterialEditor materialEditor, MaterialProperty[] properties)
@@ -70,6 +72,12 @@ namespace ShaderBasics.Editor
         {
             materialEditor.ShaderProperty(noiseScale.prop, noiseScale.info);
             materialEditor.ShaderProperty(noiseStrength.prop, noiseStrength.info);
+
+            if (useHeightCutoff.prop != null)
+            {
+                materialEditor.ShaderProperty(useHeightCutoff.prop, useHeightCutoff.info);
+            }
+            
             materialEditor.ShaderProperty(cutoffHeight.prop, cutoffHeight.info);
             materialEditor.ShaderProperty(edgeColor.prop, edgeColor.info);
             materialEditor.ShaderProperty(edgeThickness.prop, edgeThickness.info);

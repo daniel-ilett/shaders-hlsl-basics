@@ -4,13 +4,6 @@ inline float2 randomVector(float2 seed, float timeOffset = 0.0f)
     return float2(sin(a), cos(a));
 }
 
-inline float2 altRandomVector(float2 UV, float offset)
-{
-    float2x2 m = float2x2(15.27, 47.63, 99.41, 89.98);
-    UV = frac(sin(mul(UV, m)) * 46839.32);
-    return float2(sin(UV.y * offset) * 0.5 + 0.5, cos(UV.x * offset) * 0.5 + 0.5);
-}
-
 inline float perlinNoiseSingleOctave(float2 uv, float timeOffset = 0.0f)
 {
     float2 i = floor(uv);
@@ -39,7 +32,7 @@ float perlinNoise(float2 uv, float scale, float timeOffset = 0.0f)
     float t = 0.0;
     float2 scaledUV = uv * scale;
 
-    float freq = 1.0f;
+    float freq = 4.0f;
     float amp = 0.5f;
     t += perlinNoiseSingleOctave(float2(scaledUV.x / freq, scaledUV.y / freq), timeOffset) * amp;
 
@@ -47,7 +40,7 @@ float perlinNoise(float2 uv, float scale, float timeOffset = 0.0f)
     amp = 0.25f;
     t += perlinNoiseSingleOctave(float2(scaledUV.x / freq, scaledUV.y / freq), timeOffset) * amp;
 
-    freq = 4.0f;
+    freq = 1.0f;
     amp = 0.125f;
     t += perlinNoiseSingleOctave(float2(scaledUV.x / freq, scaledUV.y / freq), timeOffset) * amp;
 
