@@ -37,7 +37,7 @@ public class GreyscaleFeature : ScriptableRendererFeature
         {
             if (material != null) return;
             
-            var shader = Shader.Find("Basics/Greyscale");
+            var shader = Shader.Find("Basics/PostProcess/Greyscale");
             material = new Material(shader);
         }
 

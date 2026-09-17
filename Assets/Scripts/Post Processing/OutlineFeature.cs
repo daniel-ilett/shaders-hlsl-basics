@@ -37,7 +37,7 @@ public class OutlineFeature : ScriptableRendererFeature
         {
             if (material != null) return;
             
-            var shader = Shader.Find("Basics/Outline");
+            var shader = Shader.Find("Basics/PostProcess/Outline");
             material = new Material(shader);
         }
 

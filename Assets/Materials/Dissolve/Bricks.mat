@@ -130,13 +130,13 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 0
     - _Cutoff: 0.5
-    - _CutoffHeight: 0.03
+    - _CutoffHeight: -0.18
     - _CycleSpeed: 0.4
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
-    - _EdgeThickness: 0.02
+    - _EdgeThickness: 0.025
     - _EnvironmentReflections: 1
     - _FresnelPower: 4
     - _FresnelStrength: 0.15
@@ -144,9 +144,9 @@ Material:
     - _Glossiness: 7
     - _GlossyReflections: 0
     - _HeightMapStrength: 0
-    - _Metallic: 0
-    - _NoiseScale: 75
-    - _NoiseStrength: 0.159
+    - _Metallic: 0.1
+    - _NoiseScale: 45
+    - _NoiseStrength: 0.268
     - _NoiseType: 2
     - _NormalStrength: 1
     - _OcclusionStrength: 1

@@ -47,6 +47,30 @@ float perlinNoise(float2 uv, float scale, float timeOffset = 0.0f)
     return t;
 }
 
+float perlinNoise(float2 uv, float scale, int octaves, float timeOffset = 0.0f)
+{
+    float t = 0.0;
+    float2 scaledUV = uv * scale;
+    
+    if (octaves < 1)
+    {
+        return t;
+    }
+    
+    float freq = 4.0f;
+    float amp = 0.5f;
+    
+    for (int i = 0; i < octaves; ++i)
+    {
+        t += perlinNoiseSingleOctave(float2(scaledUV.x / freq, scaledUV.y / freq), timeOffset) * amp;
+        
+        freq *= 0.5f;
+        amp *= 0.5f;
+    }
+
+    return t;
+}
+
 // Based on code by Inigo Quilez: https://iquilezles.org/articles/voronoilines/
 void voronoiNoise(float2 uv, float cellDensity, out float distFromCenter, out float distFromEdge, float timeOffset = 0.0f)
 {

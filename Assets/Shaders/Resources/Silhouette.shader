@@ -1,4 +1,4 @@
-Shader "Basics/Silhouette"
+Shader "Basics/PostProcess/Silhouette"
 {
     SubShader
     {

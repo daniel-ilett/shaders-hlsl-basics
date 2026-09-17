@@ -1,4 +1,4 @@
-Shader "Basics/Outline2"
+Shader "Basics/PostProcess/Outline2"
 {
     SubShader
     {

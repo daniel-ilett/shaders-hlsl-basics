@@ -1,4 +1,4 @@
-Shader "Basics/Greyscale"
+Shader "Basics/PostProcess/Greyscale"
 {
     SubShader
     {

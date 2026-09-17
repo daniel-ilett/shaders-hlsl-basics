@@ -12,12 +12,12 @@ namespace ShaderBasics.Editor
         // The PBRShaderProperty and enum declarations were moved to ShaderGUITypes.cs as they are reused in new scripts.
         //
         
-        private string[] surfaceTypeNames = Enum.GetNames(typeof(SurfaceType));
-        private string[] renderFaceNames = Enum.GetNames(typeof(RenderFace));
-        private string[] blendFunctionNames = Enum.GetNames(typeof(BlendFunction));
-        private string[] zWriteControlNames = Enum.GetNames(typeof(ZWriteControl));
-        private string[] queueControlNames =  Enum.GetNames(typeof(QueueControl));
-        private string[] compareFunctionNames = Enum.GetNames(typeof(CompareFunction));
+        private static readonly string[] surfaceTypeNames = Enum.GetNames(typeof(SurfaceType));
+        private static readonly string[] renderFaceNames = Enum.GetNames(typeof(RenderFace));
+        private static readonly string[] blendFunctionNames = Enum.GetNames(typeof(BlendFunction));
+        private static readonly string[] zWriteControlNames = Enum.GetNames(typeof(ZWriteControl));
+        private static readonly string[] queueControlNames =  Enum.GetNames(typeof(QueueControl));
+        private static readonly string[] compareFunctionNames = Enum.GetNames(typeof(CompareFunction));
 
         private PBRShaderProperty baseColor = new("_BaseColor", "Base Color", 
             "Albedo color of the object.");
@@ -369,7 +369,7 @@ namespace ShaderBasics.Editor
         {
             materialEditor.TexturePropertySingleLine(baseTexture.info, baseTexture.prop, baseColor.prop);
             materialEditor.TextureScaleOffsetProperty(baseTexture.prop);
-            
+
             materialEditor.ShaderProperty(useSpecularSetup.prop, useSpecularSetup.info);
 
             if (useSpecularSetup.prop.intValue > 0)
@@ -380,7 +380,7 @@ namespace ShaderBasics.Editor
             {
                 materialEditor.TexturePropertySingleLine(metallicMap.info, metallicMap.prop, metallic.prop);
             }
-            
+
             materialEditor.TexturePropertySingleLine(smoothnessMap.info, smoothnessMap.prop, smoothness.prop);
             materialEditor.ShaderProperty(convertFromRoughness.prop, convertFromRoughness.info);
             materialEditor.TexturePropertySingleLine(normalTexture.info, normalTexture.prop, normalStrength.prop);

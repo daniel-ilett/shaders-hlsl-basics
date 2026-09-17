@@ -37,7 +37,7 @@ public class SilhouetteFeature : ScriptableRendererFeature
         {
             if (material != null) return;
             
-            var shader = Shader.Find("Basics/Silhouette");
+            var shader = Shader.Find("Basics/PostProcess/Silhouette");
             material = new Material(shader);
         }
 
